@@ -21,6 +21,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {
@@ -43,11 +47,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     //espresso
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    //androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
+
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0'
-    //androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.1.0'
-    //androidTestImplementation 'androidx.test.espresso:espresso-web:3.1.0'
-    //androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.1.0'
 
     // Room components
     implementation "androidx.room:room-runtime:$room_version"
@@ -84,4 +85,11 @@ dependencies {
 
     // optional - Test helpers
     implementation "androidx.work:work-testing:$work_version"
+
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

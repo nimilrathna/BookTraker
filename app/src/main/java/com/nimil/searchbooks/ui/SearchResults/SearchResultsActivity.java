@@ -1,30 +1,14 @@
 package com.nimil.searchbooks.ui.SearchResults;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.nimil.searchbooks.BackendClasses.Book;
-import com.nimil.searchbooks.BackendClasses.BookLocalRepository;
 import com.nimil.searchbooks.R;
-import com.nimil.searchbooks.ui.SearchResults.BookLoader;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.nimil.searchbooks.AppController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +37,8 @@ public class SearchResultsActivity extends AppCompatActivity {
         mSearchLayoutManager=new LinearLayoutManager(this);
         mSearchResultView = findViewById(R.id.recycler_search_result);
         mSearchResultView.setLayoutManager(mSearchLayoutManager);
-        mSearchResultView.setAdapter(mSearchAdapter);
+
+       /* mSearchResultView.setAdapter(mSearchAdapter);
 
         BookLocalRepository repository=new BookLocalRepository(getApplication());
         SearchResultsViewFactory searchFactory=new SearchResultsViewFactory(repository,queryString);
@@ -93,7 +78,21 @@ public class SearchResultsActivity extends AppCompatActivity {
                 }
                 mSearchResultsViewModel.addFavourite(book);
             }
+        });*/
+
+
+        SearchFeedViewModel feedViewModel = new SearchFeedViewModel(AppController.create(this),queryString);
+        FeedListAdapter adapter = new FeedListAdapter(getApplicationContext());
+
+        feedViewModel.getBookLiveData().observe(this, pagedList -> {
+            adapter.submitList(pagedList);
         });
+
+        feedViewModel.getNetworkState().observe(this, networkState -> {
+            adapter.setNetworkState(networkState);
+        });
+
+        mSearchResultView.setAdapter(adapter);
 
     }
 }
